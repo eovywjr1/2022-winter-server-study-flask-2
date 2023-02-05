@@ -32,7 +32,7 @@ class UserManagement(Resource):
         password = userInfo['password']
         nickname = userInfo['nickname']
         
-        sql = "SELECT count(*) FROM user WHERE id = '" + id + "'"
+        sql = "SELECT * FROM user WHERE id = '" + id + "'"
         row = db.execute_one(sql)
         if(len(row) == 0):
             sql = "INSERT INTO user VALUES ('" + id + "', '" + password + "', '" + nickname + "')"
