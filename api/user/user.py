@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_restx import Resource, Namespace
 from database.database import Database
 
@@ -38,8 +38,8 @@ class UserManagement(Resource):
             sql = "INSERT INTO user VALUES ('" + id + "', '" + password + "', '" + nickname + "')"
             db.execute(sql)
             
-            return jsonify({'is_success' : True, 'message' : '유저 생성 성공'}), 200
-        else: return jsonify({'is_success' : False, 'message' : '이미 있는 유저'}), 400
+            return make_response(jsonify({'is_success' : True, 'message' : '유저 생성 성공'}), 200)
+        else: return make_response(jsonify({'is_success' : False, 'message' : '이미 있는 유저'}), 400)
 
     def put(self):
         """유저 데이터(닉네임) 수정"""
