@@ -34,7 +34,7 @@ class UserManagement(Resource):
         
         sql = "SELECT * FROM user WHERE id = '" + id + "'"
         row = db.execute_one(sql)
-        if(len(row) == 0):
+        if(row is None):
             sql = "INSERT INTO user VALUES ('" + id + "', '" + password + "', '" + nickname + "')"
             db.execute(sql)
             
