@@ -3,6 +3,7 @@ from flask_restx import Resource, Namespace
 from database.database import Database
 
 user = Namespace('user')
+Database.close()
 db = Database()
 
 @user.route('')
