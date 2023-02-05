@@ -52,7 +52,7 @@ class UserManagement(Resource):
         sql = "SELECT * FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
         row = db.execute_one(sql)
         if(row is None): return make_response(jsonify({'is_success' : False, 'message' : '아이디나 비밀번호 불일치'}), 400)
-        elif(row[2] == nickname): return make_response(jsonify({'is_success' : False, 'message' : '현재 닉네임과 같음'}), 400)
+        elif(row['nickname'] == nickname): return make_response(jsonify({'is_success' : False, 'message' : '현재 닉네임과 같음'}), 400)
         else:
             sql = "UPDATE user SET nickname = '" + nickname + "' WHERE id = '" +  id + "'"
             db.execute(sql)
