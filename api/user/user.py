@@ -22,7 +22,7 @@ class UserManagement(Resource):
             row = db.execute_one(sql)
             
             if(row is None): return make_response(jsonify({'message' : '아이디나 비밀번호 불일치'}), 400)
-            else: return make_response(jsonify({'nickname' : row[2]}), 200)
+            else: return make_response(jsonify({'nickname' : row['nickname']}), 200)
     
     def post(self):
         """유저 생성"""
