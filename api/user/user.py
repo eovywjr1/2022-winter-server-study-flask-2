@@ -14,15 +14,15 @@ class UserManagement(Resource):
         id = userInfo['id']
         password = userInfo['password']
         
-        sql = "SELECT count(*) FROM user WHERE id = '" + id + "'"
+        sql = "SELECT * FROM user WHERE id = '" + id + "'"
         row = db.execute_one(sql)
-        if(row[0] == 0): return jsonify({'message' : '해당 유저가 존재하지 않음'}), 400
+        if(row is None): return make_response(jsonify({'message' : '해당 유저가 존재하지 않음'}), 400)
         else:
-            sql = "SELECT count(*) FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
+            sql = "SELECT * FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
             row = db.execute_one(sql)
             
-            if(row[0] == 0): return jsonify({'message' : '아이디나 비밀번호 불일치'}), 400
-            else: return jsonify({'nickname' : row[2]}), 200
+            if(row is None): return make_response(jsonify({'message' : '아이디나 비밀번호 불일치'}), 400)
+            else: return make_response(jsonify({'nickname' : row[2]}), 200)
     
     def post(self):
         """유저 생성"""
@@ -49,15 +49,15 @@ class UserManagement(Resource):
         password = userInfo['password']
         nickname = userInfo['nickname']
         
-        sql = "SELECT count(*) FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
+        sql = "SELECT * FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
         row = db.execute_one(sql)
-        if(row[0] == 0): return jsonify({'is_success' : False, 'message' : '아이디나 비밀번호 불일치'}), 400
-        elif(row[2] == nickname): return jsonify({'is_success' : False, 'message' : '현재 닉네임과 같음'}), 400
+        if(row is None): return make_response(jsonify({'is_success' : False, 'message' : '아이디나 비밀번호 불일치'}), 400)
+        elif(row[2] == nickname): return make_response(jsonify({'is_success' : False, 'message' : '현재 닉네임과 같음'}), 400)
         else:
             sql = "UPDATE user SET nickname = '" + nickname + "' WHERE id = '" +  id + "'"
             db.execute(sql)
             
-            return jsonify({'is_success' : True, 'message' : '유저 닉네임 변경 성공'}), 200
+            return make_response(jsonify({'is_success' : True, 'message' : '유저 닉네임 변경 성공'}), 200)
     
     def delete(self):
         """유저 삭제"""
@@ -66,11 +66,11 @@ class UserManagement(Resource):
         id = userInfo['id']
         password = userInfo['password']
         
-        sql = "SELECT count(*) FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
+        sql = "SELECT * FROM user WHERE id = '" + id + "' and pw = '" + password + "'"
         row = db.execute_one(sql)
-        if(row[0] == 0): return jsonify({'is_success' : False, 'message' : '아이디나 비밀번호 불일치'}), 400
+        if(row is None): return make_response(jsonify({'is_success' : False, 'message' : '아이디나 비밀번호 불일치'}), 400)
         else:
             sql = "DELETE FROM user WHERE id = '" + id + "'"
             db.execute(sql)
             
-            return jsonify({'is_success' : True, 'message' : '유저 삭제 성공'}), 200
+            return make_response(jsonify({'is_success' : True, 'message' : '유저 삭제 성공'}), 200)
