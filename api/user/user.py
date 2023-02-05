@@ -34,7 +34,7 @@ class UserManagement(Resource):
         
         sql = "SELECT count(*) FROM user WHERE id = '" + id + "'"
         row = db.execute_one(sql)
-        if(row[0] == 0):
+        if(len(row) == 0):
             sql = "INSERT INTO user VALUES ('" + id + "', '" + password + "', '" + nickname + "')"
             db.execute(sql)
             
